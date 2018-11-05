@@ -1,15 +1,19 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import reduxPromise from 'redux-promise';
 import reducers from 'reducers';
 
 // initialState for testing purpose give data to provider for testing
 export default ({ children, initialState={} }) => {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   const store = createStore(
     reducers, 
-    initialState, 
-    applyMiddleware(reduxPromise)
+    initialState,
+    composeEnhancers(
+      applyMiddleware(reduxPromise)
+    ),
   );
 
   return (
